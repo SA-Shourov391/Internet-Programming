@@ -11,7 +11,7 @@
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- Bootstrap CSS (kept for utilities) -->
+  <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
   <!-- Font Awesome -->
@@ -23,9 +23,9 @@
       --accent-500: #06b6d4;
       --accent-400: #7dd3fc;
       --nav-height: 72px;
-      --footer-bg: linear-gradient(180deg,#d8eefc,#d2efff);
       --btn-hover-shadow: 0 18px 48px rgba(2,132,199,0.18);
     }
+
     body{
       font-family: 'Poppins', sans-serif;
       background: #f3f4f6;
@@ -38,12 +38,12 @@
     header.site-nav{
       position: fixed;
       inset: 0 0 auto 0;
-      z-index: 50;
+      z-index: 60;
       height: var(--nav-height);
       display: flex;
       align-items: center;
       backdrop-filter: blur(8px);
-      background: rgba(255,255,255,0.98);
+      background: rgba(255,255,255,0.85);
       border-bottom: 1px solid rgba(2,132,199,0.08);
       box-shadow: 0 8px 24px rgba(2,6,23,0.04);
     }
@@ -56,7 +56,7 @@
       margin-right: 8px;
     }
     nav.desktop-nav a.nav-link{
-      color: #075985; /* darker sky blue */
+      color: #075985;
       font-weight: 600;
       padding: 8px 10px;
       border-radius: 8px;
@@ -83,9 +83,23 @@
       box-shadow: 0 14px 36px rgba(3,105,161,0.18);
       filter: brightness(1.03);
     }
-    .apply-top:active{ transform: translateY(-1px) scale(0.99); }
 
-    /* Mobile toggle styling */
+    /* Login button */
+    .login-top{
+      background: transparent;
+      color: #075985;
+      border: 1px solid rgba(3,105,161,0.08);
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-weight:600;
+      transition: all .14s ease;
+    }
+    .login-top:hover{
+      background: rgba(3,105,161,0.06);
+      color: var(--accent-600);
+      transform: translateY(-2px);
+    }
+
     .nav-toggle{
       border: 1px solid rgba(15,23,42,0.06);
       padding: 8px;
@@ -93,13 +107,7 @@
       background: #fff;
     }
 
-    /* small screens adjustments */
-    @media (max-width: 767px){
-      .site-logo{ height:48px; }
-      .apply-top{ display:none; } /* keep header compact on small screens */
-    }
-
-    /* Make sure main starts right after header (no extra padding) */
+    /* ensure page content not hidden behind header */
     main{ margin-top: var(--nav-height); }
 
     /* thin gradient strip placed *outside* header to avoid overlap bug */
@@ -109,7 +117,7 @@
       border-bottom: 1px solid rgba(2,132,199,0.06);
     }
 
-    /* ===== HERO (restored effects + one-line heading on wide view) ===== */
+    /* ===== HERO (restored effects) ===== */
     .hero{
       min-height: calc(100vh - var(--nav-height));
       background-size: cover;
@@ -127,8 +135,8 @@
       background: linear-gradient(180deg, rgba(0,0,0,0.35), rgba(0,0,0,0.28));
     }
     .hero-text{ position:relative; z-index:2; text-align:center; color:#fff; max-width:1100px; }
+    .hero p { font-size: clamp(16px, 2.2vw, 22px); margin-top:12px; }
 
-    /* Important: keep university name on single line in web/desktop */
     .fancy-text{
       display:inline-block;
       border-bottom:3px solid rgba(14,165,233,0.95);
@@ -136,25 +144,18 @@
       font-weight:800;
       letter-spacing:0.6px;
       font-size: clamp(28px, 4.8vw, 56px);
-      white-space: nowrap;          /* <-- force single line on wide screens */
+      white-space: nowrap;          /* force single line on wide screens */
       transition: transform .22s ease, text-shadow .22s ease;
     }
-
-    /* restore hover float effect: on hover text slightly rises */
     .fancy-text:hover,
     .fancy-text:focus{
       transform: translateY(-8px);
       text-shadow: 0 12px 30px rgba(2,132,199,0.18);
     }
-
-    /* On small screens allow wrapping so text doesn't overflow */
     @media (max-width: 640px){
       .fancy-text{ white-space: normal; font-size: 28px; }
     }
 
-    .hero p { font-size: clamp(16px, 2.2vw, 22px); margin-top:12px; }
-
-    /* Apply button (hero) with refined hover & active */
     .apply-hero{
       background: linear-gradient(90deg,var(--accent-500),var(--accent-600));
       color:#fff;
@@ -172,20 +173,8 @@
       box-shadow: 0 26px 66px rgba(2,132,199,0.22);
       filter: brightness(1.03);
     }
-    /* touch / active state */
-    .apply-hero:active{
-      transform: translateY(-2px) scale(0.985);
-      box-shadow: 0 12px 30px rgba(2,132,199,0.14);
-    }
-    .apply-hero:focus{ outline: 3px solid rgba(14,165,233,0.16); outline-offset: 4px; }
 
-    /* small-screen adjust for hero */
-    @media (max-width: 767px){
-      .fancy-text { font-size: 28px; }
-      .apply-hero { padding:12px 26px; }
-    }
-
-    /* ===== ABOUT, PROGRAMS, DATES, FOOTER remain same (unchanged) ===== */
+    /* ===== ABOUT, PROGRAMS, DATES, FOOTER styling (kept/professionalized) ===== */
     .about-card{
       display:flex;
       gap:28px;
@@ -198,6 +187,12 @@
       border: 1px solid rgba(2,132,199,0.04);
     }
     .about-photo{ width: 420px; max-width:100%; border-radius:12px; object-fit:cover; }
+
+    /* On small screens show image first then text (mobile-first: image on top) */
+    @media (max-width: 640px){
+      .about-card{ flex-direction: column; padding:18px; }
+      .about-photo{ order: 0; width: 100%; }
+    }
 
     .read-more{
       display:inline-block;
@@ -250,21 +245,61 @@
       border-bottom:3px solid rgba(6,182,212,0.18);
     }
 
-    /* ===== FOOTER: slightly darker but still light ===== */
+    /* ===== FOOTER ===== */
     footer.site-footer{
-      background: linear-gradient(180deg,#1e90ec,lab(84.55% -25.69 -15.92)); /* slightly darker than before but still light */
+      background: linear-gradient(180deg,#1e90ec,lab(84.55% -25.69 -15.92)); 
       border-top: 2px solid rgb(80, 243, 221);
       color: #0f172a;
     }
-    .footer-inner{
-      padding:14px 0 22px 0; /* compact but balanced */
-    }
+    .footer-inner{ padding:14px 0 22px 0; }
     .footer-card{
       border-radius:10px;
       padding:12px;
       border:1px solid rgba(2,132,199,0.08);
       background:#adf5ff;
       box-shadow: 0 8px 24px rgba(2,6,23,0.04);
+    }
+
+    /* ===== LOGIN MODAL STYLES ===== */
+    .modal-backdrop{
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.45);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+    .modal-card{
+      width: 94%;
+      max-width: 420px;
+      background: #fff;
+      border-radius: 14px;
+      padding: 22px;
+      box-shadow: 0 20px 60px rgba(2,6,23,0.25);
+      transform-origin: center;
+      animation: modalIn .28s ease both;
+    }
+    @keyframes modalIn{
+      from { opacity:0; transform: translateY(18px) scale(.98); }
+      to { opacity:1; transform: translateY(0) scale(1); }
+    }
+    .modal-close{
+      position: absolute;
+      right: 14px;
+      top: 12px;
+      background: transparent;
+      border: none;
+      font-size: 22px;
+      color: #64748b;
+      cursor: pointer;
+    }
+    .modal-close:hover{ color: #ef4444; }
+
+    /* small screens tweaks */
+    @media (max-width: 640px){
+      header.site-nav{ height: 64px; }
+      .site-logo{ height:48px; }
     }
   </style>
 </head>
@@ -274,13 +309,13 @@
   <header class="site-nav w-full">
     <div class="container max-w-7xl mx-auto px-4 flex items-center justify-between">
       <div class="flex items-center gap-4">
-        <a href="index.html" class="flex items-center">
+        <a href="index.html" class="flex items-center" aria-label="Uttara University Home">
           <img src="images/logo.png" alt="Uttara University Logo" class="site-logo">
         </a>
       </div>
 
       <!-- Desktop nav -->
-      <nav class="desktop-nav hidden md:flex items-center gap-2">
+      <nav class="desktop-nav hidden md:flex items-center gap-2" role="navigation" aria-label="Main Navigation">
         <a class="nav-link" href="index.html">Home</a>
         <a class="nav-link" href="admission.html">Admission</a>
         <a class="nav-link" href="#about-section">About</a>
@@ -289,6 +324,7 @@
       </nav>
 
       <div class="flex items-center gap-3">
+        <button id="loginBtn" class="login-top" title="Login">Login</button>
         <a href="admission.html" class="apply-top">Apply Now</a>
 
         <!-- Mobile toggle -->
@@ -304,7 +340,7 @@
     </div>
   </header>
 
-  <!-- NAV ACCENT STRIP (placed outside header to avoid blocking mobile toggle) -->
+  <!-- NAV ACCENT STRIP -->
   <div class="nav-accent-strip w-full"></div>
 
   <!-- Mobile menu (outside header) -->
@@ -321,7 +357,7 @@
 
   <main>
 
-    <!-- ===== HERO SECTION (restored effects + single-line for wide screens) ===== -->
+    <!-- ===== HERO SECTION ===== -->
     <section class="hero" style="background-image: url('images/UU_campus.jpg');">
       <div class="hero-text max-w-4xl px-4">
         <h1 class="fancy-text" tabindex="0">Welcome to Uttara University</h1>
@@ -336,7 +372,7 @@
         <h2 class="text-3xl font-bold text-blue-700 mb-6 text-center">About Uttara University</h2>
 
         <div class="about-card mx-auto">
-          <!-- Image (place your image at: Online_Student_Admission_Portal/images/about_photo.jpg) -->
+          <!-- Image -->
           <img src="images/about_photo.jpg" alt="About Uttara University" class="about-photo">
 
           <div class="max-w-xl">
@@ -414,7 +450,7 @@
                   <p class="font-semibold text-slate-800 mt-2">Application Deadline</p>
                 </div>
                 <div class="mt-4">
-                  <span class="inline-block px-3 py-1 rounded-full text-sm font-medium bg-amber-50 text-amber-700 border border-amber-100">15th December 2025</span>
+                  <span class="inline-block px-3 py-1 rounded-full text-sm font-medium bg-amber-50 text-amber-700 border border-amber-100">25th December 2025</span>
                 </div>
               </div>
 
@@ -480,39 +516,130 @@
     </div>
   </footer>
 
-  <!-- Minimal JS for mobile menu toggle -->
+  <!-- ===== LOGIN MODAL (Hybrid setup: popup login) ===== -->
+  <div id="loginModal" class="hidden" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="loginTitle">
+    <div class="modal-backdrop" id="loginBackdrop" tabindex="-1">
+      <div class="modal-card relative">
+        <button class="modal-close" id="closeLogin" aria-label="Close login modal">&times;</button>
+        <h3 id="loginTitle" class="text-2xl font-semibold text-sky-700 mb-3 text-center">User Login</h3>
+
+        <form id="loginForm" class="space-y-3" onsubmit="handleLogin(event)">
+          <div>
+            <label class="form-label text-sm text-slate-600">Email address</label>
+            <input id="loginEmail" type="email" required class="w-full border rounded-lg px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-sky-200" placeholder="Enter your email" />
+          </div>
+
+          <div>
+            <label class="form-label text-sm text-slate-600">Password</label>
+            <input id="loginPassword" type="password" required class="w-full border rounded-lg px-3 py-2 mt-1 focus:outline-none focus:ring-2 focus:ring-sky-200" placeholder="Enter your password" />
+          </div>
+
+          <div class="flex items-center justify-between text-sm">
+            <label class="flex items-center gap-2">
+              <input id="rememberMe" type="checkbox" class="accent-sky-600" /> Remember me
+            </label>
+            <a href="forgot-password.html" class="text-sky-600 hover:underline">Forgot password?</a>
+          </div>
+
+          <div class="pt-2">
+            <button type="submit" class="w-full bg-sky-600 text-white py-2 rounded-lg font-semibold hover:bg-sky-700 transition">Login</button>
+          </div>
+
+          <div class="text-center text-sm text-slate-600">
+            Don't have an account? <a id="openRegister" href="registration.html" class="text-sky-600 hover:underline">Register here</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Minimal JS: menu toggle + login modal logic -->
   <script>
-    (function () {
-      const navToggle = document.getElementById('navToggle');
-      const mobileMenu = document.getElementById('mobileMenu');
-      const menuOpenIcon = document.getElementById('menuOpen');
-      const menuCloseIcon = document.getElementById('menuClose');
+    // Mobile menu toggle
+    const navToggle = document.getElementById('navToggle');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const menuOpenIcon = document.getElementById('menuOpen');
+    const menuCloseIcon = document.getElementById('menuClose');
 
-      navToggle && navToggle.addEventListener('click', function (e) {
-        e.stopPropagation();
-        if (mobileMenu.classList.contains('hidden')) {
-          mobileMenu.classList.remove('hidden');
-          menuOpenIcon.classList.add('hidden');
-          menuCloseIcon.classList.remove('hidden');
-        } else {
-          mobileMenu.classList.add('hidden');
-          menuOpenIcon.classList.remove('hidden');
-          menuCloseIcon.classList.add('hidden');
-        }
-      });
+    navToggle && navToggle.addEventListener('click', function (e) {
+      e.stopPropagation();
+      if (mobileMenu.classList.contains('hidden')) {
+        mobileMenu.classList.remove('hidden');
+        menuOpenIcon.classList.add('hidden');
+        menuCloseIcon.classList.remove('hidden');
+      } else {
+        mobileMenu.classList.add('hidden');
+        menuOpenIcon.classList.remove('hidden');
+        menuCloseIcon.classList.add('hidden');
+      }
+    });
 
-      // close when clicking outside
-      document.addEventListener('click', function (e) {
-        if (!navToggle.contains(e.target) && mobileMenu && !mobileMenu.contains(e.target)) {
-          if (!mobileMenu.classList.contains('hidden')) {
-            mobileMenu.classList.add('hidden');
-            menuOpenIcon.classList.remove('hidden');
-            menuCloseIcon.classList.add('hidden');
-          }
-        }
-      });
-    })();
+    // Login modal logic
+    const loginBtn = document.getElementById('loginBtn');
+    const loginModal = document.getElementById('loginModal');
+    const loginBackdrop = document.getElementById('loginBackdrop');
+    const closeLogin = document.getElementById('closeLogin');
+
+    function openLogin() {
+      loginModal.classList.remove('hidden');
+      loginModal.setAttribute('aria-hidden','false');
+      // trap focus to modal (basic)
+      document.body.style.overflow = 'hidden';
+      document.getElementById('loginEmail').focus();
+    }
+    function closeLoginModal() {
+      loginModal.classList.add('hidden');
+      loginModal.setAttribute('aria-hidden','true');
+      document.body.style.overflow = '';
+      loginBtn && loginBtn.focus();
+    }
+
+    loginBtn && loginBtn.addEventListener('click', openLogin);
+    closeLogin && closeLogin.addEventListener('click', closeLoginModal);
+
+    // click on backdrop to close
+    loginBackdrop && loginBackdrop.addEventListener('click', function(e){
+      if (e.target === loginBackdrop) closeLoginModal();
+    });
+
+    // ESC to close modal
+    document.addEventListener('keydown', function(e){
+      if (e.key === 'Escape') {
+        if (!loginModal.classList.contains('hidden')) closeLoginModal();
+      }
+    });
+
+    // Example client-side mock login handler (replace with real auth)
+    function handleLogin(e) {
+      e.preventDefault();
+      const email = document.getElementById('loginEmail').value.trim();
+      // const pass = document.getElementById('loginPassword').value;
+      // Simple demo: accept any non-empty email/password
+      // In production, POST to backend API for verification.
+      if (!email) {
+        alert('Please enter your email.');
+        return;
+      }
+      // show success (simple)
+      closeLoginModal();
+      // small success toast
+      const toast = document.createElement('div');
+      toast.textContent = 'Logged in successfully';
+      toast.style.position = 'fixed';
+      toast.style.right = '20px';
+      toast.style.top = '20px';
+      toast.style.background = '#0ea5e9';
+      toast.style.color = '#fff';
+      toast.style.padding = '10px 14px';
+      toast.style.borderRadius = '8px';
+      toast.style.boxShadow = '0 8px 24px rgba(2,6,23,0.12)';
+      document.body.appendChild(toast);
+      setTimeout(()=> toast.remove(), 2200);
+      // TODO: redirect to dashboard after real auth
+    }
   </script>
 
+  <!-- Bootstrap JS for any components if needed -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
