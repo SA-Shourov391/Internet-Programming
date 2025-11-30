@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Uttara University | Online Student Admission Portal</title>
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <script src="https://kit.fontawesome.com/a2d04b6b65.js" crossorigin="anonymous"></script>
+
+  <style>
+    :root{
+      --accent-600: #0284c7;
+      --accent-500: #06b6d4;
+      --accent-400: #7dd3fc;
+      --nav-height: 72px;
+      --btn-hover-shadow: 0 18px 48px rgba(2,132,199,0.18);
+    }
+
+    body{
+      font-family: 'Poppins', sans-serif;
+      background: #f3f4f6;
+      color: #0f172a;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+    }
+
+    /* ===== NAVBAR ===== */
+    header.site-nav{
+      position: fixed;
+      inset: 0 0 auto 0;
+      z-index: 60;
+      height: var(--nav-height);
+      display: flex;
+      align-items: center;
+      backdrop-filter: blur(8px);
+      background: rgba(255,255,255,0.85);
+      border-bottom: 3px solid rgb(2,132,199);
+      box-shadow: 0 8px 24px rgba(2,6,23,0.04); 
+    }
+
+    .site-logo{ height:56px; width:auto; object-fit:contain; display:block; margin-right:8px; }
+
+    .nav-link{ color:#075985; font-weight:600; padding:8px 10px; border-radius:8px; transition:all .16s ease; }
+    .nav-link:hover{ background: rgba(3,105,161,0.06); transform: translateY(-2px); color: var(--accent-600); }
+
+    /* Apply button */
+    .apply-top{
+      background: linear-gradient(90deg,var(--accent-600),var(--accent-500));
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 9999px;
+      font-weight: 700;
+      box-shadow: 0 8px 24px rgba(3,105,161,0.12);
+      transition: transform .16s ease, box-shadow .16s ease, filter .16s ease;
+    }
+    .apply-top:hover{
+      transform: translateY(-3px);
+      box-shadow: 0 14px 36px rgba(3,105,161,0.18);
+      filter: brightness(1.05);
+    }
+
+    /* Login button */
+    .login-top{
+      background: transparent;
+      color: #075985;
+      border: 1px solid rgba(3,105,161,0.08);
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-weight:600;
+      transition: all .14s ease;
+    }
+    .login-top:hover{
+      background: rgba(3,105,161,0.06);
+      color: var(--accent-600);
+      transform: translateY(-2px);
+    }
+
+    .nav-toggle{
+      border: 1px solid rgba(15,23,42,0.06);
+      padding: 8px;
+      border-radius: 8px;
+      background: #fff;
+    }
+
+    main{ margin-top: var(--nav-height); }
+
+    .nav-accent-strip{
+      height: 0px;
+      background: linear-gradient(90deg, rgba(14,165,233,0.12), rgba(34,197,94,0.12));
+      border-bottom: 1px solid rgba(2,132,199,0.06);
+    }
+
+    /* ===== FORM CARD ===== */
+    .form-card{
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 12px 28px rgba(0,0,0,0.08);
+      transition: transform 0.2s ease;
+    }
+    .form-card:hover{ transform: translateY(-3px); }
+
+    .form-label{
+      font-weight: 500;
+      color: #0f172a;
+    }
+
+    .form-control, .form-select, textarea{
+      border-radius: 8px;
+      border: 1px solid #cbd5e1;
+      padding: 10px 12px;
+      transition: all 0.2s;
+    }
+    .form-control:focus, .form-select:focus, textarea:focus{
+      outline: none;
+      border-color: var(--accent-600);
+      box-shadow: 0 0 0 3px rgba(2,132,199,0.12);
+    }
+
+    button[type="submit"]{
+      background: linear-gradient(90deg,var(--accent-500),var(--accent-600));
+      color: #fff;
+      font-weight: 600;
+      transition: transform 0.16s ease, box-shadow 0.16s ease;
+    }
+    button[type="submit"]:hover{
+      transform: scale(1.03);
+      box-shadow: 0 12px 28px rgba(2,132,199,0.2);
+    }
+
+    /* ===== FOOTER ===== */
+    footer.site-footer{
+      background: linear-gradient(180deg,#1e90ec,lab(84.55% -25.69 -15.92)); 
+      border-top: 2px solid rgb(80, 243, 221);
+      color: #0f172a;
+    }
+    .footer-inner{ padding:14px 0 22px 0; }
+    .footer-card{
+      border-radius:10px;
+      padding:12px;
+      border:1px solid rgba(2,132,199,0.08);
+      background:#adf5ff;
+      box-shadow: 0 8px 24px rgba(2,6,23,0.04);
+    }
+
+    /* ===== LOGIN SELECTION MODAL ===== */
+    .modal-backdrop{ 
+      position:fixed; 
+      inset:0; 
+      background:rgba(0,0,0,0.45); 
+      display:flex; 
+      align-items:center; 
+      justify-content:center; 
+      z-index:1000; 
+    }
+    .modal-card{ 
+      width:94%; 
+      max-width:420px; 
+      background:#ffffff; 
+      border: 2px solid rgb(10, 157, 255);
+      border-radius:14px; 
+      padding:18px; 
+      box-shadow:0 20px 60px rgba(2,6,23,0.25); 
+      transform-origin:center; 
+      animation:modalIn .28s ease both; 
+      position:relative; 
+    }
+    @keyframes modalIn{ from{ opacity:0; transform: translateY(18px) scale(.98);} to{ opacity:1; transform: translateY(0) scale(1);} }
+    .modal-close{ position:absolute; right:12px; top:10px; background:transparent; border:none; font-size:22px; color:#64748b; cursor:pointer; }
+    .modal-close:hover{ color:#ef4444; }
+    
+    .login-option {
+      display: block;
+      width: 100%;
+      padding: 14px 16px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 15px;
+      margin-bottom: 12px;
+      text-align: left;
+      border: 1px solid rgb(188, 233, 255);
+      background: linear-gradient(90deg, rgba(14,165,233,0.06), rgba(6,182,212,0.03));
+      cursor: pointer;
+      transition: transform .12s ease, box-shadow .12s ease, background .12s ease;
+    }
+    .login-option:hover { 
+      transform: translateY(-4px); 
+      box-shadow: 0 12px 30px rgba(2,6,23,0.08); 
+      border: 1px solid rgb(10, 157, 255); 
+      background: linear-gradient(90deg, rgba(173, 229, 255, 0.842), rgba(157, 255, 250, 0.651));
+    }
+    
+    /* mobile menu animation helpers */
+    .mobile-menu{ 
+      transition: transform .28s ease, opacity .28s ease; 
+      transform: translateY(-100%); 
+      opacity:0; 
+      position:fixed; 
+      inset:0 0 auto 0; 
+      z-index:50; 
+      background:#f2eeff; 
+      padding:18px; 
+      overflow:auto; 
+    }
+    .mobile-menu.open{ 
+      transform: translateY(0); 
+      opacity:1; 
+    }
+
+    /* small screens tweaks */
+    @media (max-width:640px){ 
+      header.site-nav{ height:64px; } 
+      .site-logo{ height:48px; } 
+      main{ margin-top:64px; } 
+    }
+        /* Smooth fade animation for Student login form */
+        .fade-in {
+            animation: fadeIn 0.9s ease-in-out forwards;
+            opacity: 0;
+        }
+        @keyframes fadeIn {
+            100% { opacity: 1; }
+        }
+    </style>
+</head>
+
+<body class="bg-gradient-to-br from-blue-50 to-blue-200">
+
+      <!-- ===== NAVBAR ===== -->
+  <header class="site-nav w-full">
+    <div class="container max-w-7xl mx-auto px-4 flex items-center justify-between">
+      <div class="flex items-center gap-4">
+        <a href="index.html" class="flex items-center" aria-label="Uttara University Home">
+          <img src="images/logo.png" alt="Uttara University Logo" class="site-logo">
+        </a>
+      </div>
+
+      <!-- Desktop nav -->
+      <nav class="desktop-nav hidden md:flex items-center gap-2" role="navigation" aria-label="Main Navigation">
+        <a class="nav-link" href="index.html">Home</a>
+        <a class="nav-link" href="admission.html">Admission</a>
+        <a class="nav-link" href="#about-section">About</a>
+        <a class="nav-link" href="#departments">Department</a>
+        <a class="nav-link" href="notice-board.html">Notice</a>
+        <a class="nav-link" href="contact.html">Contact</a> 
+      </nav>
+
+      <div class="flex items-center gap-3">
+        <button id="loginBtn" class="login-top hidden md:inline-block" title="Login">Login</button>
+        <a href="admission.html" class="apply-top hidden md:inline-block">Apply Now</a>
+
+        <!-- Mobile toggle -->
+        <button id="navToggle" class="md:hidden nav-toggle" aria-label="Toggle navigation">
+          <svg id="menuOpen" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-slate-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8h16M4 16h16" />
+          </svg>
+          <svg id="menuClose" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-slate-700 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- thin accent strip -->
+  <div class="nav-accent-strip w-full"></div>
+
+  <!-- ===== MOBILE MENU (slide down) ===== -->
+  <div id="mobileMenu" class="mobile-menu hidden md:hidden">
+    <div class="flex items-center justify-between mb-2">
+      <div class="font-bold">Menu</div>
+      <button id="mobileClose" class="nav-toggle" aria-label="Close menu">Close</button>
+    </div>
+
+    <nav class="space-y-2 text-center">
+      <a href="index.html" class="block py-2 mt-4 nav-link">Home</a>
+      <a href="admission.html" class="block py-2 nav-link">Admission</a>
+      <a href="#about-section" class="block py-2 nav-link">About</a>
+      <a href="#departments" class="block py-2 nav-link">Department</a>
+      <a href="notice-board.html" class="block py-2 nav-link">Notice</a>
+      <a href="contact.html" class="block py-2 nav-link">Contact</a> 
+      <button id="mobileLoginBtn" class="w-full py-2 font-semibold text-blue-700 nav-link">Login</button>
+    </nav>
+  </div>
+
+  <main>
+    <section class="container py-10 mt-12">
+    <div class="w-full max-w-md mx-auto form-card p-8 md:p-10">
+
+        <!-- Teacher / Admin Login -->
+        <div class="text-center mb-6">
+            <h2 class="text-2xl font-bold text-blue-800">Teacher / Admin Login</h2>
+            <p class="text-sm text-gray-500 mt-1">Enter your credentials to continue</p>
+        </div>
+
+        <!-- Form Section -->
+        <form action="api/teacher_login.php" method="POST" class="space-y-5">
+
+            <!-- ID Field -->
+            <div>
+                <label class="form-label">Teacher/Admin ID</label>
+                <input type="text" name="teacher_id" placeholder="Enter your ID" class="form-control" required/>
+            </div>
+
+            <!-- Password Field -->
+            <div>
+                <label class="form-label">Password</label>
+                <input type="password" name="password" placeholder="Enter your password" class="form-control" required/>
+            </div>
+
+            <!-- Remember + Forgot Password -->
+            <div class="flex items-center justify-between text-sm">
+                <label class="flex items-center gap-2">
+                    <input type="checkbox" class="w-4 h-4 text-blue-600">
+                    <span class="text-gray-600">Remember me</span>
+                </label>
+
+                <a href="#" class="text-blue-600 hover:underline">
+                    Forgot Password?
+                </a>
+            </div>
+
+            <!-- Login Button -->
+            <button 
+                type="submit"
+                class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 rounded-lg shadow-lg transition-all duration-200"
+            >
+                Login
+            </button>
+        </form>
+
+    </div>
+    </section>
+  </main>
+
+    <!-- ===== Footer ===== -->
+  <footer class="site-footer mt-0">
+    <div class="container max-w-7xl mx-auto px-4 footer-inner">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
+        <div>
+          <div class="font-semibold text-lg">Uttara University</div>
+          <div class="text-sm text-slate-700 mt-2">House #4 & 6, Road #15, Sector #6, Uttara, Dhaka-1230</div>
+          <div class="text-sm text-slate-700 mt-1">Email: info@uttarauniversity.edu.bd | Phone: +8802-5895 2522</div>
+        </div>
+
+        <div>
+          <div class="font-semibold mb-2">Quick Links</div>
+          <ul class="space-y-2 text-sm text-slate-700">
+            <li><a href="index.html" class="hover:underline">Home</a></li>
+            <li><a href="admission.html" class="hover:underline">Admission</a></li>
+            <li><a href="#about-section" class="hover:underline">About</a></li>
+            <li><a href="#departments" class="hover:underline">Department</a></li>
+            <li><a href="#notices" class="hover:underline">Notice</a></li>
+            <li><a href="contact.html" class="hover:underline">Contact</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="font-semibold mb-3">Connect With Us</div>
+          <div class="footer-card">
+            <div class="flex flex-col gap-2 text-sm">
+              <a href="https://www.facebook.com/UttaraUniversity" target="_blank" rel="noopener" class="text-slate-700 hover:underline">Facebook</a>
+              <a href="https://x.com/Uttara_Varsity" target="_blank" rel="noopener" class="text-slate-700 hover:underline">X (Twitter)</a>
+              <a href="https://www.linkedin.com/school/uttarauniversitybd" target="_blank" rel="noopener" class="text-slate-700 hover:underline">LinkedIn</a>
+              <a href="https://www.youtube.com/c/UttaraUniversityofficial" target="_blank" rel="noopener" class="text-slate-700 hover:underline">YouTube</a>
+              <a href="https://www.tiktok.com/@uttarauniversity" target="_blank" rel="noopener" class="text-slate-700 hover:underline">TikTok</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-6 text-center text-sm text-slate-600">
+        <hr class="my-4 border-slate-200">
+        <p>&copy; 2025 Uttara University. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===== LOGIN SELECTION MODAL (used by desktop & mobile login buttons) ===== -->
+  <div id="loginModal" class="hidden" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="modal-backdrop" id="loginBackdrop" tabindex="-1">
+      <div class="modal-card" role="document" aria-labelledby="loginTitle">
+        <button class="modal-close" id="closeLogin" aria-label="Close login selection">&times;</button>
+
+        <!-- Minimal professional hint text (you asked not too big title) -->
+        <div style="margin-top:6px; margin-bottom:6px; text-align:left;">
+          <div style="font-weight:700; color:#0f172a; font-size:16px; margin-bottom:6px;">Choose login type</div>
+          <div class="text-sm text-slate-600">Please select the appropriate login type — </div>
+        </div>
+
+        <!-- Teacher / Admin first -->
+        <button id="teacherLoginBtn" class="login-option" type="button" title="Teacher or Admin login">
+          👨‍🏫 &nbsp; Teacher / Admin Login
+        </button>
+
+        <!-- Student next -->
+        <button id="studentLoginBtn" class="login-option" type="button" title="Student login">
+          🎓 &nbsp; Student Login
+        </button>
+
+        <div class="mt-2 text-center text-sm text-slate-500">
+          If you don't have an account, please <a href="registration.html" class="text-sky-600 hover:underline">register here</a>.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SCRIPTS: Mobile menu toggle, login popup, notice filters (client-only demo) ===== -->
+  <script>
+    // Mobile menu toggle (slide)
+    const navToggle = document.getElementById('navToggle');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const menuOpenIcon = document.getElementById('menuOpen');
+    const menuCloseIcon = document.getElementById('menuClose');
+    const mobileClose = document.getElementById('mobileClose');
+
+    function openMobileMenu(){
+      mobileMenu.classList.remove('hidden');
+      // small delay to allow CSS to animate
+      setTimeout(()=> mobileMenu.classList.add('open'), 20);
+      menuOpenIcon.classList.add('hidden');
+      menuCloseIcon.classList.remove('hidden');
+      document.body.style.overflow = 'hidden'; // avoid background scroll
+    }
+    function closeMobileMenu(){
+      mobileMenu.classList.remove('open');
+      menuOpenIcon.classList.remove('hidden');
+      menuCloseIcon.classList.add('hidden');
+      setTimeout(()=> mobileMenu.classList.add('hidden'), 300);
+      document.body.style.overflow = '';
+    }
+
+    navToggle && navToggle.addEventListener('click', function(e){ e.stopPropagation(); if (mobileMenu.classList.contains('hidden')) openMobileMenu(); else closeMobileMenu(); });
+    mobileClose && mobileClose.addEventListener('click', closeMobileMenu);
+
+    // Close mobile menu on outside click
+    window.addEventListener('click', function(e){
+      if (!mobileMenu.classList.contains('hidden') && !mobileMenu.contains(e.target) && !navToggle.contains(e.target)) {
+        closeMobileMenu();
+      }
+    });
+
+    // LOGIN selection modal (shared by desktop and mobile)
+    const loginBtn = document.getElementById('loginBtn');
+    const mobileLoginBtn = document.getElementById('mobileLoginBtn');
+    const loginModal = document.getElementById('loginModal');
+    const loginBackdrop = document.getElementById('loginBackdrop');
+    const closeLogin = document.getElementById('closeLogin');
+    const teacherLoginBtn = document.getElementById('teacherLoginBtn');
+    const studentLoginBtn = document.getElementById('studentLoginBtn');
+
+    function openLoginSelection(){
+      loginModal.classList.remove('hidden');
+      loginBackdrop.setAttribute('aria-hidden','false');
+      document.body.style.overflow = 'hidden';
+      // if mobile menu open, close it for clear view
+      if (!mobileMenu.classList.contains('hidden')) closeMobileMenu();
+      setTimeout(()=> teacherLoginBtn.focus(), 120);
+    }
+    function closeLoginSelection(){
+      loginModal.classList.add('hidden');
+      loginBackdrop.setAttribute('aria-hidden','true');
+      document.body.style.overflow = '';
+      loginBtn && loginBtn.focus();
+    }
+
+    loginBtn && loginBtn.addEventListener('click', openLoginSelection);
+    mobileLoginBtn && mobileLoginBtn.addEventListener('click', openLoginSelection);
+    closeLogin && closeLogin.addEventListener('click', closeLoginSelection);
+
+    // click on backdrop to close
+    loginBackdrop && loginBackdrop.addEventListener('click', function(e){
+      if (e.target === loginBackdrop) closeLoginSelection();
+    });
+
+    // ESC to close modal
+    document.addEventListener('keydown', function(e){
+      if (e.key === 'Escape') {
+        if (!loginModal.classList.contains('hidden')) closeLoginSelection();
+      }
+    });
+
+    // Redirects to specific login pages (small delay for smooth UX)
+    teacherLoginBtn && teacherLoginBtn.addEventListener('click', function(){
+      closeLoginSelection();
+      setTimeout(()=> { window.location.href = 'teacher-login.html'; }, 180);
+    });
+    studentLoginBtn && studentLoginBtn.addEventListener('click', function(){
+      closeLoginSelection();
+      setTimeout(()=> { window.location.href = 'student-login.html'; }, 180);
+    });
+
+    // ===== Simple Notice Board client-side filter (demo) =====
+    const noticeDept = document.getElementById('noticeDept');
+    const noticeSearch = document.getElementById('noticeSearch');
+    const noticeGrid = document.getElementById('noticeGrid');
+
+    function filterNotices(){
+      const dept = noticeDept ? noticeDept.value.toLowerCase() : 'all';
+      const q = noticeSearch ? noticeSearch.value.trim().toLowerCase() : '';
+      const cards = noticeGrid ? Array.from(noticeGrid.children) : [];
+      cards.forEach(card => {
+        const meta = (card.querySelector('.notice-meta')?.textContent || '').toLowerCase();
+        const title = (card.querySelector('.notice-title')?.textContent || '').toLowerCase();
+        const body = (card.querySelector('p')?.textContent || '').toLowerCase();
+        let matchesDept = true;
+        if (dept && dept !== 'all') matchesDept = meta.includes(dept) || title.includes(dept) || body.includes(dept);
+        const matchesQuery = q === '' || title.includes(q) || body.includes(q) || meta.includes(q);
+        if (matchesDept && matchesQuery) card.style.display = ''; else card.style.display = 'none';
+      });
+    }
+
+    noticeDept && noticeDept.addEventListener('change', filterNotices);
+    noticeSearch && noticeSearch.addEventListener('input', filterNotices);
+
+    // initial filter run
+    setTimeout(filterNotices, 80);
+  </script>
+
+  <!-- Bootstrap JS (optional) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
